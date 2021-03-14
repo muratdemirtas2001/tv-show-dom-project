@@ -8,7 +8,6 @@ rootElem.appendChild(episodeContainer);
 const allEpisodes = getAllEpisodes();
 
 function setup() {
-  // addSearchbarEvent();
   makePageForEpisodes(allEpisodes);
 }
 
@@ -34,7 +33,7 @@ function addSearchBar() {
       );
     });
     episodeContainer.innerHTML = ``;
-    searchTotal.innerText="Total episode found:"+episodeList.length
+    searchTotal.innerText = "Total episode found:" + episodeList.length;
     if (episodeList.length === 0) {
       episodeContainer.innerText = "Sorry, please search again";
     } else {
@@ -55,13 +54,15 @@ function makePageForEpisodes(episodeList) {
 
     let episodeNameParagraph = document.createElement("p");
     episodeDiv.appendChild(episodeNameParagraph);
+     let showSeason; 
+     let showNumber; 
     if (episode.season < 10) {
-      episode.season = `0${episode.season}`;
-    }
+      showSeason = `0${episode.season}`;
+    } else {showSeason = episode.season}
     if (episode.number < 10) {
-      episode.number = `0${episode.number}`;
-    }
-    episodeNameParagraph.innerText = `${episode.name}-S${episode.season}E${episode.number}`;
+       showNumber = `0${episode.number}`;
+    } else {showNumber = episode.number}
+    episodeNameParagraph.innerText = `${episode.name}-S${showSeason}E${showNumber}`;
     episodeNameParagraph.classList.add("episodeName-paragraph");
 
     let episodeImage = document.createElement("img");
