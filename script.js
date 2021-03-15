@@ -15,22 +15,36 @@ allEpisodes.forEach((episode) => {
 rootElem.appendChild(episodeContainer);
 episodeContainer.parentNode.insertBefore(selectEpisode, episodeContainer);
 
+// selectEpisode.addEventListener("change", (e) => {
+//   let displaySelectedEpisode = allEpisodes.forEach((episode) => {
+//     console.log(e.target.value);
+
+//     if (episode.name === e.target.value) {
+//       episodeContainer.innerHTML = ``;
+//       let newEpisode = [episode];
+//       console.log(newEpisode);
+//       console.log(e.target.value);
+
+//       makePageForEpisodes(newEpisode);
+//       break;
+//     }
+//   });
+//   console.log(e.target.value);
+// });
+
 selectEpisode.addEventListener("change", (e) => {
-  let displaySelectedEpisode = allEpisodes.forEach((episode) => {
-    console.log(e.target.value);
+  let displaySelectedEpisode = allEpisodes.filter((episode) => {
+return episode.name === e.target.value
+})
+episodeContainer.innerHTML = ``;
+let newEpisode = displaySelectedEpisode
+console.log(newEpisode);
+console.log(e.target.value);
 
-    if (episode.name === e.target.value) {
-      episodeContainer.innerHTML = ``;
-      let newEpisode = [episode];
-      console.log(newEpisode);
-      console.log(e.target.value);
-
-      makePageForEpisodes(newEpisode);
-      break;
-    }
-  });
-  console.log(e.target.value);
+makePageForEpisodes(newEpisode);
 });
+
+
 addSearchBar();
 
 function setup() {
