@@ -1,11 +1,37 @@
 //You can edit ALL of the code here
 const rootElem = document.getElementById("root");
 let episodeContainer = document.createElement("div");
-addSearchBar();
-
-rootElem.appendChild(episodeContainer);
-
+let selectEpisode = document.createElement("select");
+document.body.appendChild(selectEpisode);
 const allEpisodes = getAllEpisodes();
+
+allEpisodes.forEach((episode) => {
+  let option = document.createElement("option");
+  // console.log(option);
+  option.setAttribute("value", episode.name);
+  option.innerText = episode.name;
+  selectEpisode.appendChild(option);
+});
+rootElem.appendChild(episodeContainer);
+episodeContainer.parentNode.insertBefore(selectEpisode, episodeContainer);
+
+selectEpisode.addEventListener("change", (e) => {
+  let displaySelectedEpisode = allEpisodes.forEach((episode) => {
+    console.log(e.target.value);
+
+    if (episode.name === e.target.value) {
+      episodeContainer.innerHTML = ``;
+      let newEpisode = [episode];
+      console.log(newEpisode);
+      console.log(e.target.value);
+
+      makePageForEpisodes(newEpisode);
+      break;
+    }
+  });
+  console.log(e.target.value);
+});
+addSearchBar();
 
 function setup() {
   makePageForEpisodes(allEpisodes);
@@ -13,7 +39,7 @@ function setup() {
 
 function addSearchBar() {
   const searchInput = document.createElement("input");
-  rootElem.appendChild(searchInput);
+  episodeContainer.parentNode.insertBefore(searchInput, episodeContainer);
   searchInput.classList.add("search-input");
   const searchTotal = document.createElement("p");
   rootElem.appendChild(searchTotal);
@@ -46,7 +72,7 @@ function makePageForEpisodes(episodeList) {
   const episodeSection = document.createElement("section");
   episodeContainer.appendChild(episodeSection);
   episodeSection.classList.add("episode-section");
-  console.log(episodeList);
+  // console.log(episodeList);
   episodeList.forEach((episode) => {
     let episodeDiv = document.createElement("div");
     episodeSection.appendChild(episodeDiv);
@@ -54,14 +80,18 @@ function makePageForEpisodes(episodeList) {
 
     let episodeNameParagraph = document.createElement("p");
     episodeDiv.appendChild(episodeNameParagraph);
-     let showSeason; 
-     let showNumber; 
+    let showSeason;
+    let showNumber;
     if (episode.season < 10) {
       showSeason = `0${episode.season}`;
-    } else {showSeason = episode.season}
+    } else {
+      showSeason = episode.season;
+    }
     if (episode.number < 10) {
-       showNumber = `0${episode.number}`;
-    } else {showNumber = episode.number}
+      showNumber = `0${episode.number}`;
+    } else {
+      showNumber = episode.number;
+    }
     episodeNameParagraph.innerText = `${episode.name}-S${showSeason}E${showNumber}`;
     episodeNameParagraph.classList.add("episodeName-paragraph");
 
