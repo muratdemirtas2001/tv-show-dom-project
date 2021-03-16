@@ -1,3 +1,6 @@
+html {
+  font-size: 16px;
+}
 #root {
   display: flex;
   flex-direction: column;
@@ -6,14 +9,16 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  font-size: 1.5em;
+  /* font-size: 1.5em; */
 }
 
 .searchbar-container {
   margin: 20px;
+  font-size: 1.5rem;
 }
 .selectepisode-container {
   margin: 20px;
+  font-size: 1.5rem;
 }
 .label-searchinput {
   margin-right: 10px;
@@ -24,7 +29,17 @@
 }
 
 .search-input {
-  /* margin: 20px; */
+  font-size: 1.5rem;
+}
+.select-episode {
+  font-size: 1.5rem;
+}
+.search-total {
+  font-size: 1.5rem;
+}
+.display-all-button {
+  font-size: 1.5rem;
+  margin: 15px;
 }
 .episode-section {
   display: flex;
