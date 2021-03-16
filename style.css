@@ -2,8 +2,29 @@
   display: flex;
   flex-direction: column;
 }
+.navbar-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 1.5em;
+}
+
+.searchbar-container {
+  margin: 20px;
+}
+.selectepisode-container {
+  margin: 20px;
+}
+.label-searchinput {
+  margin-right: 10px;
+}
+
+.label-selectepisode {
+  margin-right: 10px;
+}
+
 .search-input {
-  margin: auto;
+  /* margin: 20px; */
 }
 .episode-section {
   display: flex;

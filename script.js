@@ -1,49 +1,55 @@
 //You can edit ALL of the code here
 const rootElem = document.getElementById("root");
+let navbarContainer = document.createElement("div");
+navbarContainer.classList.add("navbar-container")
+let searchBarContainer = document.createElement("div");
+searchBarContainer.classList.add("searchbar-container");
+
+let selectEpisodeContainer = document.createElement("div");
+selectEpisodeContainer.classList.add("selectepisode-container");
+
 let episodeContainer = document.createElement("div");
 let selectEpisode = document.createElement("select");
-document.body.appendChild(selectEpisode);
-const allEpisodes = getAllEpisodes();
+const labelSearchInput = document.createElement("label");
+const labelSelectEpisode = document.createElement("label");
 
+labelSearchInput.innerText = "Search your episode";
+labelSearchInput.classList.add("label-searchinput");
+
+labelSelectEpisode.innerText = "Choose your episode";
+labelSelectEpisode.classList.add("label-selectepisode");
+
+const searchInput = document.createElement("input");
+navbarContainer.appendChild(searchBarContainer)
+navbarContainer.appendChild(selectEpisodeContainer)
+searchBarContainer.appendChild(labelSearchInput);
+searchBarContainer.appendChild(searchInput);
+selectEpisodeContainer.appendChild(labelSelectEpisode);
+
+selectEpisodeContainer.appendChild(selectEpisode);
+// document.body.appendChild(navbarContainer);
+rootElem.appendChild(navbarContainer);
+rootElem.appendChild(episodeContainer);
+// document.body.appendChild(selectEpisode);
+// episodeContainer.parentNode.insertBefore(selectEpisode, episodeContainer);
+// episodeContainer.parentNode.insertBefore(searchInput, episodeContainer);
+
+const allEpisodes = getAllEpisodes();
 allEpisodes.forEach((episode) => {
   let option = document.createElement("option");
-  // console.log(option);
   option.setAttribute("value", episode.name);
   option.innerText = episode.name;
   selectEpisode.appendChild(option);
 });
-rootElem.appendChild(episodeContainer);
-episodeContainer.parentNode.insertBefore(selectEpisode, episodeContainer);
-
-// selectEpisode.addEventListener("change", (e) => {
-//   let displaySelectedEpisode = allEpisodes.forEach((episode) => {
-//     console.log(e.target.value);
-
-//     if (episode.name === e.target.value) {
-//       episodeContainer.innerHTML = ``;
-//       let newEpisode = [episode];
-//       console.log(newEpisode);
-//       console.log(e.target.value);
-
-//       makePageForEpisodes(newEpisode);
-//       break;
-//     }
-//   });
-//   console.log(e.target.value);
-// });
 
 selectEpisode.addEventListener("change", (e) => {
   let displaySelectedEpisode = allEpisodes.filter((episode) => {
-return episode.name === e.target.value
-})
-episodeContainer.innerHTML = ``;
-let newEpisode = displaySelectedEpisode
-console.log(newEpisode);
-console.log(e.target.value);
-
-makePageForEpisodes(newEpisode);
+    return episode.name === e.target.value;
+  });
+  episodeContainer.innerHTML = ``;
+  let newEpisode = displaySelectedEpisode;
+  makePageForEpisodes(newEpisode);
 });
-
 
 addSearchBar();
 
@@ -52,8 +58,6 @@ function setup() {
 }
 
 function addSearchBar() {
-  const searchInput = document.createElement("input");
-  episodeContainer.parentNode.insertBefore(searchInput, episodeContainer);
   searchInput.classList.add("search-input");
   const searchTotal = document.createElement("p");
   rootElem.appendChild(searchTotal);
@@ -86,7 +90,6 @@ function makePageForEpisodes(episodeList) {
   const episodeSection = document.createElement("section");
   episodeContainer.appendChild(episodeSection);
   episodeSection.classList.add("episode-section");
-  // console.log(episodeList);
   episodeList.forEach((episode) => {
     let episodeDiv = document.createElement("div");
     episodeSection.appendChild(episodeDiv);
@@ -116,7 +119,7 @@ function makePageForEpisodes(episodeList) {
 
     let episodeSummary = document.createElement("p");
     episodeDiv.appendChild(episodeSummary);
-    episodeSummary.innerText = episode.summary;
+    episodeSummary.innerHTML = episode.summary;
     episodeSummary.classList.add("episodeSummary-paragraph");
   });
 
