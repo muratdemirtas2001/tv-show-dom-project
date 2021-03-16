@@ -1,95 +1,21 @@
 //You can edit ALL of the code here
-const rootElem = document.getElementById("root");
-let navbarContainer = document.createElement("div");
-navbarContainer.classList.add("navbar-container");
-let searchBarContainer = document.createElement("div");
-searchBarContainer.classList.add("searchbar-container");
-
-let selectEpisodeContainer = document.createElement("div");
-selectEpisodeContainer.classList.add("selectepisode-container");
-
-let episodeContainer = document.createElement("div");
-let selectEpisode = document.createElement("select");
-const labelSearchInput = document.createElement("label");
-const labelSelectEpisode = document.createElement("label");
-
-selectEpisode.classList.add("select-episode");
-labelSearchInput.innerText = "Search your episode";
-labelSearchInput.classList.add("label-searchinput");
-
-labelSelectEpisode.innerText = "Choose your episode";
-labelSelectEpisode.classList.add("label-selectepisode");
-
-const searchInput = document.createElement("input");
-navbarContainer.appendChild(searchBarContainer);
-navbarContainer.appendChild(selectEpisodeContainer);
-searchBarContainer.appendChild(labelSearchInput);
-searchBarContainer.appendChild(searchInput);
-selectEpisodeContainer.appendChild(labelSelectEpisode);
-
-selectEpisodeContainer.appendChild(selectEpisode);
-// document.body.appendChild(navbarContainer);
-rootElem.appendChild(navbarContainer);
-rootElem.appendChild(episodeContainer);
-// document.body.appendChild(selectEpisode);
-// episodeContainer.parentNode.insertBefore(selectEpisode, episodeContainer);
-// episodeContainer.parentNode.insertBefore(searchInput, episodeContainer);
-
+//All html elements created are in htmlelement.js
 const allEpisodes = getAllEpisodes();
-allEpisodes.forEach((episode) => {
-  let option = document.createElement("option");
-  option.setAttribute("value", episode.name);
-  option.innerText = episode.name;
-  selectEpisode.appendChild(option);
-});
-
-selectEpisode.addEventListener("change", (e) => {
-  let displaySelectedEpisode = allEpisodes.filter((episode) => {
-    return episode.name === e.target.value;
-  });
-  episodeContainer.innerHTML = ``;
-  let newEpisode = displaySelectedEpisode;
-  makePageForEpisodes(newEpisode);
-});
-
-addSearchBar();
-
+//Calling setup function when window is onloaded
+window.onload = setup();
+// Declaring setup function which calls all other functions
 function setup() {
-  makePageForEpisodes(allEpisodes);
+  displayEpisodes(allEpisodes);
+  displaySelectEpisode();
+  addSearchBar();
+  createAllEpisodesButton();
 }
-
-function addSearchBar() {
-  searchInput.classList.add("search-input");
-  const searchTotal = document.createElement("p");
-  searchTotal.classList.add("search-total")
-  navbarContainer.appendChild(searchTotal);
-  searchInput.addEventListener("input", (e) => {
-    let searchInputValue = e.target.value;
-    // console.log(searchInputValue);
-
-    let episodeList = allEpisodes.filter((episode) => {
-      let newName = episode.name.toUpperCase();
-      let newSummary = episode.summary.toUpperCase();
-      let newSearchInputValue = searchInputValue.toUpperCase();
-      return (
-        newName.includes(newSearchInputValue) ||
-        newSummary.includes(newSearchInputValue)
-      );
-    });
-    episodeContainer.innerHTML = ``;
-    searchTotal.innerText = "Total episode found:" + episodeList.length;
-    if (episodeList.length === 0) {
-      episodeContainer.innerText = "Sorry, please search again";
-    } else {
-      makePageForEpisodes(episodeList);
-    }
-  });
-}
-
-function makePageForEpisodes(episodeList) {
+// Declaring function to create sections for  episodes.
+function displayEpisodes(episodeList) {
   const episodeSection = document.createElement("section");
   episodeContainer.appendChild(episodeSection);
   episodeSection.classList.add("episode-section");
+
   episodeList.forEach((episode) => {
     let episodeDiv = document.createElement("div");
     episodeSection.appendChild(episodeDiv);
@@ -122,7 +48,54 @@ function makePageForEpisodes(episodeList) {
     episodeSummary.innerHTML = episode.summary;
     episodeSummary.classList.add("episodeSummary-paragraph");
   });
-
-  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+  foundEpisodesText(episodeList);
 }
-window.onload = setup;
+//Declaring function to add searchbar features
+function addSearchBar() {
+  searchInput.addEventListener("input", (e) => {
+    let searchInputValue = e.target.value;
+    let episodeList = allEpisodes.filter((episode) => {
+      let newName = episode.name.toUpperCase();
+      let newSummary = episode.summary.toUpperCase();
+      let newSearchInputValue = searchInputValue.toUpperCase();
+      return (
+        newName.includes(newSearchInputValue) ||
+        newSummary.includes(newSearchInputValue)
+      );
+    });
+    episodeContainer.innerHTML = ``;
+    foundEpisodesText(episodeList);
+    displayEpisodes(episodeList);
+  });
+}
+//Declaring function to create all episode button's feature
+function createAllEpisodesButton() {
+  displayAllEpisodesButton.addEventListener("click", () => {
+    episodeContainer.innerHTML = ``;
+    displayEpisodes(allEpisodes);
+  });
+}
+// Declaring function to display the episode chosen by using select dropdown element
+function displaySelectEpisode() {
+  allEpisodes.forEach((episode) => {
+    let option = document.createElement("option");
+    option.setAttribute("value", episode.name);
+    option.innerText = episode.name;
+    selectEpisode.appendChild(option);
+  });
+  selectEpisode.addEventListener("change", (e) => {
+    let displaySelectedEpisode = allEpisodes.filter((episode) => {
+      return episode.name === e.target.value;
+    });
+    episodeContainer.innerHTML = ``;
+    let newEpisode = displaySelectedEpisode;
+    displayEpisodes(newEpisode);
+  });
+}
+//Declaring function to display number of episode found regarding with any query
+function foundEpisodesText(episodeList) {
+  searchTotal.innerText = "Total episode found:" + episodeList.length;
+  if (episodeList.length === 0) {
+    episodeContainer.innerText = "Sorry, please search again";
+  }
+}
