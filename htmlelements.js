@@ -9,6 +9,9 @@ selectEpisodeContainer.classList.add("selectepisode-container");
 
 let episodeContainer = document.createElement("div");
 let selectEpisode = document.createElement("select");
+let defaultOption=document.createElement("option")
+defaultOption.innerText="Please choose an episode"
+selectEpisode.appendChild(defaultOption)
 const labelSearchInput = document.createElement("label");
 const labelSelectEpisode = document.createElement("label");
 
