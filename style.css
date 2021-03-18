@@ -8,17 +8,26 @@ html {
 .navbar-container {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  /* font-size: 1.5em; */
+  align-items: center;
+  /* flex-wrap: wrap; */
+  flex-direction: column;
+  background-color: rgba(171, 58, 58, 0.767);
 }
 
 .searchbar-container {
   margin: 20px;
-  font-size: 1.5rem;
+  font-size: 1.5em;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 }
 .selectepisode-container {
   margin: 20px;
   font-size: 1.5rem;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
 }
 .label-searchinput {
   margin-right: 10px;
@@ -40,16 +49,18 @@ html {
 .display-all-button {
   font-size: 1.5rem;
   margin: 15px;
+  width: 90%;
 }
 .episode-section {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   background-color: gray;
+  margin-top: 20px;
 }
 .episode-div {
-  height:600px;
-  width: 400px;
+  /* height: 600px; */
+  width: 90vw;
   background-color: whitesmoke;
   display: flex;
   justify-content: flex-start;
@@ -83,4 +94,106 @@ html {
 .episodeSummary-paragraph {
   max-width: 90%;
   font-size: 1.2em;
+}
+
+@media screen and (min-width: 768px) {
+  .navbar-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* max-width: 90vw; */
+  }
+
+  .searchbar-container {
+    flex-direction: row;
+  }
+  .selectepisode-container {
+    flex-direction: row;
+  }
+  .label-searchinput {
+    min-width: 40%;
+  }
+  .search-input {
+    min-width: 60%;
+  }
+  .label-selectepisode {
+    min-width: 40%;
+  }
+  .select-episode {
+    min-width: 60%;
+  }
+  .display-all-button {
+    max-width: 20%;
+  }
+  .episode-div {
+  /* height: 600px; */
+  width: 40vw;}
+}
+
+@media screen and (min-width: 992px) {
+  .navbar-container {
+    /* flex-direction: row; */
+    /* flex-wrap: nowrap; */
+    /* max-width: 900px; */
+    /* max-width: 90vw; */
+    background-color: yellow;
+  }
+
+   .searchbar-container {
+
+  }
+  .selectepisode-container {
+  /* }
+  .label-searchinput {
+    min-width: 40%;
+  }
+  .search-input {
+    min-width: 60%;
+  }
+  .label-selectepisode {
+    min-width: 40%;
+  }
+  .select-episode {
+    min-width: 60%;
+  }
+  .display-all-button {
+    max-width: 20%;
+  } */ 
+}
+.episode-div {
+  /* height: 600px; */
+  width: 28vw;}
+}
+
+@media screen and (min-width: 1200px) {
+  .navbar-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 90vw;
+    background-color: green;
+  }
+  .episode-div {
+  /* height: 600px; */
+  width: 20vw;}
+
+  /* .searchbar-container {
+    flex-direction: row;
+  }
+  .selectepisode-container {
+    flex-direction: row;
+  }
+  .label-searchinput {
+    min-width: 40%;
+  }
+  .search-input {
+    min-width: 60%;
+  }
+  .label-selectepisode {
+    min-width: 40%;
+  }
+  .select-episode {
+    min-width: 60%;
+  }
+  .display-all-button {
+    max-width: 20%;
+  } */
 }
