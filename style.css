@@ -74,7 +74,6 @@ html {
 }
 
 .episodeName-paragraph {
-  /* text-align: justify; */
   border: black 2px solid;
   font-size: 1.3em;
   padding: 1em;
@@ -83,8 +82,6 @@ html {
   max-height: 30px;
   background-color: rgba(171, 58, 58, 0.767);
   text-align: center;
-
-  /* max-width: 90%; */
 }
 .episode-image {
   margin: 10px;
@@ -95,12 +92,16 @@ html {
   max-width: 90%;
   font-size: 1.2em;
 }
-
+.footer-container {
+  background-color: rgba(171, 58, 58, 0.767);
+  text-align: center;
+  padding: 20px 0;
+  height: 50px;
+}
 @media screen and (min-width: 768px) {
   .navbar-container {
     flex-direction: row;
     flex-wrap: wrap;
-    /* max-width: 90vw; */
   }
 
   .searchbar-container {
@@ -125,75 +126,36 @@ html {
     max-width: 20%;
   }
   .episode-div {
-  /* height: 600px; */
-  width: 40vw;}
+    /* height: 600px; */
+    width: 40vw;
+  }
 }
 
 @media screen and (min-width: 992px) {
   .navbar-container {
-    /* flex-direction: row; */
-    /* flex-wrap: nowrap; */
-    /* max-width: 900px; */
-    /* max-width: 90vw; */
-    background-color: yellow;
+    flex-wrap: wrap;
   }
 
-   .searchbar-container {
-
+  .searchbar-container {
+    max-width: 50%;
   }
   .selectepisode-container {
-  /* }
-  .label-searchinput {
-    min-width: 40%;
+    max-width: 50%;
   }
-  .search-input {
-    min-width: 60%;
+  .episode-div {
+    width: 28vw;
   }
-  .label-selectepisode {
-    min-width: 40%;
-  }
-  .select-episode {
-    min-width: 60%;
-  }
-  .display-all-button {
-    max-width: 20%;
-  } */ 
-}
-.episode-div {
-  /* height: 600px; */
-  width: 28vw;}
 }
 
 @media screen and (min-width: 1200px) {
-  .navbar-container {
-    flex-direction: row;
-    flex-wrap: wrap;
-    max-width: 90vw;
-    background-color: green;
-  }
   .episode-div {
-  /* height: 600px; */
-  width: 20vw;}
+    width: 20vw;
+  }
 
-  /* .searchbar-container {
-    flex-direction: row;
+  .searchbar-container {
+    max-width: 35%;
   }
   .selectepisode-container {
-    flex-direction: row;
+    max-width: 35%;
   }
-  .label-searchinput {
-    min-width: 40%;
-  }
-  .search-input {
-    min-width: 60%;
-  }
-  .label-selectepisode {
-    min-width: 40%;
-  }
-  .select-episode {
-    min-width: 60%;
-  }
-  .display-all-button {
-    max-width: 20%;
-  } */
 }

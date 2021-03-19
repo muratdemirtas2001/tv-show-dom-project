@@ -9,9 +9,9 @@ selectEpisodeContainer.classList.add("selectepisode-container");
 
 let episodeContainer = document.createElement("div");
 let selectEpisode = document.createElement("select");
-let defaultOption=document.createElement("option")
-defaultOption.innerText="Please choose an episode"
-selectEpisode.appendChild(defaultOption)
+let defaultOption = document.createElement("option");
+defaultOption.innerText = "Please choose an episode";
+selectEpisode.appendChild(defaultOption);
 const labelSearchInput = document.createElement("label");
 const labelSelectEpisode = document.createElement("label");
 
@@ -41,3 +41,8 @@ searchInput.classList.add("search-input");
 const searchTotal = document.createElement("p");
 searchTotal.classList.add("search-total");
 navbarContainer.appendChild(searchTotal);
+
+let footerContainer = document.createElement("footer");
+rootElem.appendChild(footerContainer);
+footerContainer.innerText="Data on this site is taken from TV MAZE API"
+footerContainer.classList.add("footer-container")
