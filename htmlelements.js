@@ -26,7 +26,7 @@ const labelSelectEpisode = document.createElement("label");
 const labelSelectShow = document.createElement("label");
 
 selectEpisode.classList.add("select-episode");
-labelSearchInput.innerText = "Search your episode";
+labelSearchInput.innerText = "Search your show/episode";
 labelSearchInput.classList.add("label-searchinput");
 
 labelSelectEpisode.innerText = "Choose your episode";
