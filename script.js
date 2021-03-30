@@ -4,14 +4,15 @@
 
 let isSearchUsed;
 let searchValue;
-displayAllShowsButtonsClicked = true;
+isDisplayAllShows = true;
 let allShows = getAllShows();
 addShowsToSelectShowElement(allShows);
 //mmmmmm
-addSearchBar(allShows);
+addSearchBarFeature(allShows);
 displayShowsEpisodes(allShows);
 createButtonFeature(displayAllShowsButton, allShows);
 disableElement(selectEpisode);
+disableElement(displayAllEpisodesButton);
 //mmmmm
 // disableElement(searchInput);
 
@@ -38,14 +39,14 @@ function addShowsToSelectShowElement(allShows) {
     selectShow.appendChild(option);
   });
 }
-function fetchSeasonData(showId) {
+function fetchAndDisplaySeason(showId) {
   fetch("https://api.tvmaze.com/shows/" + showId + "/episodes")
     .then((response) => response.json())
     .then((data) => {
       // displayEpisodes(data);
       displayShowsEpisodes(data);
-      displaySelectEpisode(data);
-      addSearchBar(data);
+      addEpisodesToSelectEpisodeElement(data);
+      addSearchBarFeature(data);
       createButtonFeature(displayAllEpisodesButton, data);
     })
     .catch((error) => console.log(error));
@@ -59,53 +60,72 @@ function displaySelectedShow(allShows) {
     });
     episodeContainer.innerHTML = ``;
     let showId = displaySelectedShow[0].id;
-    fetchSeasonData(showId);
+    fetchAndDisplaySeason(showId);
+    enableElement(selectEpisode);
+
     searchInput.value = "";
   });
 }
 // Declaring function to create sections for  episodes/shows.
 function displayShowsEpisodes(allEpisodes) {
-  enableElement(selectEpisode);
-  enableElement(searchInput);
+  // enableElement(selectEpisode);
+  // enableElement(searchInput);
   const episodeSection = document.createElement("section");
   episodeContainer.appendChild(episodeSection);
   episodeSection.classList.add("episode-section");
 
   allEpisodes.forEach((episode) => {
     let episodeDiv = document.createElement("div");
-    episodeSection.appendChild(episodeDiv);
     episodeDiv.classList.add("episode-div");
-
     let episodeNameParagraph = document.createElement("p");
-    episodeDiv.appendChild(episodeNameParagraph);
     episodeNameParagraph.classList.add("episodeName-paragraph");
-
-    [showSeason, showNumber] = episodeNumberGenerator(episode);
     let infoWrapper = document.createElement("div");
     infoWrapper.classList.add("info-wrapper");
-    episodeDiv.appendChild(infoWrapper);
     let infoAndSummaryWrapper = document.createElement("div");
-    infoAndSummaryWrapper.classList.add("info-summary-wrapper")
+    infoAndSummaryWrapper.classList.add("info-summary-wrapper");
     let episodeImage = document.createElement("img");
+    episodeImage.classList.add("episode-image");
+    episodeSection.appendChild(episodeDiv);
+    episodeDiv.append(episodeNameParagraph, infoWrapper);
+    // episodeDiv.appendChild(infoWrapper);
+    infoWrapper.append(episodeImage, infoAndSummaryWrapper);
+    // infoWrapper.appendChild(infoAndSummaryWrapper);
+    [showSeason, showNumber] = episodeNumberGenerator(episode);
     if (episode.image) {
-      episodeImage.src = episode.image.original;
+      episodeImage.src = episode.image.medium;
     } else {
       episodeImage.src = "noimages.png";
     }
-    infoWrapper.appendChild(episodeImage);
-    infoWrapper.appendChild(infoAndSummaryWrapper)
-    episodeImage.classList.add("episode-image");
     let genresInShow = [];
     if (showSeason) {
       episodeNameParagraph.innerText = `${episode.name}-S${showSeason}E${showNumber}`;
     } else {
+      episodeNameParagraph.innerText = episode.name;
       episode.genres.forEach((genre) => {
         genresInShow.push(genre);
       });
-      episodeNameParagraph.innerText = episode.name;
+      createExtraInfoAboutShow();
     }
-    if (!showSeason) {
-      // console.log("shoooowwww")
+    // if (!showSeason) {
+    //   let extraInfoShow = document.createElement("div");
+    //   extraInfoShow.classList.add("extra-info-show");
+    //   infoAndSummaryWrapper.appendChild(extraInfoShow);
+    //   let genres = document.createElement("p");
+    //   extraInfoShow.appendChild(genres);
+    //   genres.innerText = `GENRES:  ${genresInShow}`;
+    //   let status = document.createElement("p");
+    //   extraInfoShow.appendChild(status);
+    //   status.innerText = `STATUS:  ${episode.status}`;
+    //   let rating = document.createElement("p");
+    //   extraInfoShow.appendChild(rating);
+    //   rating.innerText = `RATING: ${episode.rating.average}`;
+    //   let runtime = document.createElement("p");
+    //   extraInfoShow.appendChild(runtime);
+    //   runtime.innerText = `RUN-TIME:  ${episode.runtime}`;
+    //   // episodeNameParagraph.classList.add("episodeName-paragraph");
+    // }
+
+    function createExtraInfoAboutShow() {
       let extraInfoShow = document.createElement("div");
       extraInfoShow.classList.add("extra-info-show");
       infoAndSummaryWrapper.appendChild(extraInfoShow);
@@ -121,9 +141,7 @@ function displayShowsEpisodes(allEpisodes) {
       let runtime = document.createElement("p");
       extraInfoShow.appendChild(runtime);
       runtime.innerText = `RUN-TIME:  ${episode.runtime}`;
-      // episodeNameParagraph.classList.add("episodeName-paragraph");
     }
-
     let episodeSummary = document.createElement("div");
     infoAndSummaryWrapper.appendChild(episodeSummary);
     episodeSummary.innerHTML = episode.summary;
@@ -138,47 +156,61 @@ function displayShowsEpisodes(allEpisodes) {
         `<mark>${searchValue}</mark>`
       );
     }
-    if (displayAllShowsButtonsClicked) {
+    if (isDisplayAllShows) {
       episodeDiv.addEventListener("click", (e) => {
         episodeContainer.innerHTML = ``;
         // console.log(episode.id)
-        fetchSeasonData(episode.id);
+        fetchAndDisplaySeason(episode.id);
       });
     }
   });
-  displayAllShowsButtonsClicked = false;
+  isDisplayAllShows = false;
   isSearchUsed = false;
   foundEpisodesText(allEpisodes);
   displaySelectedShow(allShows);
 }
 
 //Declaring function to add searchbar features
-function addSearchBar(allEpisodes) {
+
+function addSearchBarFeature(showEpisodeData) {
   searchInput.addEventListener("input", (e) => {
     let searchInputValue = e.target.value;
-    searchValue = searchInputValue;
-    let episodeList = allEpisodes.filter((episode) => {
-      if (episode.name && episode.summary) {
-        let newName = episode.name.toUpperCase();
-        let newSummary = episode.summary.toUpperCase();
-        let newSearchInputValue = searchInputValue.toUpperCase();
-        return (
-          newName.includes(newSearchInputValue) ||
-          newSummary.includes(newSearchInputValue)
-        );
-      }
-    });
-    isSearchUsed = true;
-    episodeContainer.innerHTML = ``;
-    foundEpisodesText(episodeList);
-    displayShowsEpisodes(episodeList);
-    selectEpisode.selectedIndex = "0";
+    filterShowEpisodeAndDisplay(showEpisodeData, searchInputValue);
   });
+}
+
+function filterShowEpisodeAndDisplay(showEpisodeData, searchInputValue) {
+  searchValue = searchInputValue;
+  let episodeList = showEpisodeData.filter((data) => {
+    let genres = [];
+    if (data.genres) {
+      genres = data.genres.map((genre) => {
+        return genre;
+      });
+    }
+    if (data.name && data.summary && genres) {
+      let newName = data.name.toUpperCase();
+      let newSummary = data.summary.toUpperCase();
+      let newGenres = genres.join().toUpperCase();
+      let newSearchInputValue = searchInputValue.toUpperCase();
+      return (
+        newName.includes(newSearchInputValue) ||
+        newSummary.includes(newSearchInputValue) ||
+        newGenres.includes(newSearchInputValue)
+      );
+    }
+  });
+  // Provide a free-text show search through show names, genres, and summary texts.
+  isSearchUsed = true;
+  episodeContainer.innerHTML = ``;
+  foundEpisodesText(episodeList);
+  displayShowsEpisodes(episodeList);
+  selectEpisode.selectedIndex = "0";
 }
 //Declaring function to create all episode button's feature
 function createButtonFeature(button, data) {
   button.addEventListener("click", () => {
-    displayAllShowsButtonsClicked = true;
+    isDisplayAllShows = true;
     episodeContainer.innerHTML = ``;
     displayShowsEpisodes(data);
     selectEpisode.selectedIndex = "0";
@@ -186,7 +218,7 @@ function createButtonFeature(button, data) {
   });
 }
 // Declaring function to display the episode chosen by using select dropdown element
-function displaySelectEpisode(allEpisodes) {
+function addEpisodesToSelectEpisodeElement(allEpisodes) {
   selectEpisode.innerHTML = "";
   allEpisodes.forEach((episode) => {
     [showSeason, showNumber] = episodeNumberGenerator(episode);
@@ -227,9 +259,9 @@ function episodeNumberGenerator(episode) {
   } else {
     showNumber = episode.number;
   }
-  let joinedNumber = [];
+  let joinedNumber = [showSeason, showNumber];
 
-  joinedNumber.push(showSeason);
-  joinedNumber.push(showNumber);
+  // joinedNumber.push(showSeason);
+  // joinedNumber.push(showNumber);
   return joinedNumber;
 }

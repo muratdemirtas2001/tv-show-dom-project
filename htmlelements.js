@@ -63,6 +63,12 @@ const searchTotal = document.createElement("p");
 searchTotal.classList.add("search-total");
 navbarContainer.appendChild(searchTotal);
 
+//  const episodeSection = document.createElement("section");
+//  episodeContainer.appendChild(episodeSection);
+//  episodeSection.classList.add("episode-section");
+
+
+
 let footerContainer = document.createElement("footer");
 rootElem.appendChild(footerContainer);
 footerContainer.innerText = "Data on this site is taken from TV MAZE API";
