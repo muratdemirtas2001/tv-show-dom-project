@@ -60,13 +60,10 @@ html {
 .episode-div {
   display: flex;
   flex-direction: column;
-  /* max-height: 500px; */
   width: 100vw;
   background-color: white;
-
   justify-content: flex-start;
   align-items: center;
-
   margin-bottom: 25px;
   margin-right: 5px;
   margin-left: 5px;
@@ -87,16 +84,11 @@ html {
   text-align: center;
 }
 .info-wrapper {
-  /* display: grid;
-  grid-template-columns: 1fr 1fr 3fr;
-  grid-template-rows: auto; */
   width: 100%;
   display: flex;
   flex-direction: column;
-  /* flex-wrap: nowrap; */
 }
 .episode-image {
-  /* width: 100%; */
   max-width: 90%;
   margin-right: 10px;
   margin-left: 10px;
@@ -118,9 +110,6 @@ html {
   width: 90%;
   margin-right: 10px;
   margin-left: 10px;
-  /* flex-basis: 50%; */
-
-  /* max-width: 90%; */
   font-size: 1 em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -136,7 +125,6 @@ html {
     flex-direction: row;
     flex-wrap: wrap;
   }
-
   .searchbar-container {
     flex-direction: row;
   }
@@ -166,25 +154,15 @@ html {
 
   .extra-info-show {
     width: 95%;
-
   }
   .episodeName-paragraph {
-
   }
   .episode-image {
     width: 40%;
     max-width: 40%;
-    
-
   }
-  /* .info-summary-wrapper{
-    width:100%;
-
-  } */
-
   .episodeSummary-paragraph {
     width: 95%;
-
   }
 }
 
@@ -192,7 +170,6 @@ html {
   .navbar-container {
     flex-wrap: wrap;
   }
-
   .searchbar-container {
     max-width: 50%;
   }
@@ -200,7 +177,15 @@ html {
     max-width: 50%;
   }
   .episode-div {
-    width: 48vw;
+    width: 45vw;
+  }
+  .episode-image {
+    width: 40%;
+    max-width: 40%;
+    max-height: 20vh;
+  }
+  .episodeSummary-paragraph {
+    width: 95%;
   }
 }
 
@@ -208,7 +193,6 @@ html {
   .episode-div {
     width: 30vw;
   }
-
   .searchbar-container {
     max-width: 35%;
   }
