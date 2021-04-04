@@ -7,6 +7,9 @@ searchBarContainer.classList.add("searchbar-container");
 let selectEpisodeContainer = document.createElement("div");
 selectEpisodeContainer.classList.add("selectepisode-container");
 
+const episodeSection = document.createElement("section");
+
+
 let selectGenreContainer = document.createElement("div");
 selectGenreContainer.classList.add("selectepisode-container");
 
@@ -49,10 +52,10 @@ labelSelectGenre.innerText="Choose your genre"
 labelSelectGenre.classList.add("label-selectepisode");
 
 const searchInput = document.createElement("input");
+navbarContainer.appendChild(selectGenreContainer)
 navbarContainer.appendChild(selectShowContainer);
 navbarContainer.appendChild(selectEpisodeContainer);
 navbarContainer.appendChild(searchBarContainer);
-navbarContainer.appendChild(selectGenreContainer)
 searchBarContainer.appendChild(labelSearchInput);
 searchBarContainer.appendChild(searchInput);
 selectEpisodeContainer.appendChild(labelSelectEpisode);

@@ -19,7 +19,23 @@ function disableElement(element) {
   element.disabled = true;
 }
 // Creating function to ad genres to select genre selector
-function addGenresToSelectGenreElement() {
+// function addGenresToSelectGenreElement() {
+//   let uniqueGenre = [];
+//   allShows.forEach((show) => {
+//     uniqueGenre = [...uniqueGenre, ...show.genres];
+//   });
+//   uniqueArray = uniqueGenre.filter(function (genre, position) {
+//     return uniqueGenre.indexOf(genre) == position;
+//   });
+//   uniqueArray.forEach((genre) => {
+//     let option = document.createElement("option");
+//     option.setAttribute("value", genre);
+//     option.innerText = genre;
+//     selectGenre.appendChild(option);
+//   });
+//   return uniqueArray;
+// }
+function findGenres() {
   let uniqueGenre = [];
   allShows.forEach((show) => {
     uniqueGenre = [...uniqueGenre, ...show.genres];
@@ -27,13 +43,17 @@ function addGenresToSelectGenreElement() {
   uniqueArray = uniqueGenre.filter(function (genre, position) {
     return uniqueGenre.indexOf(genre) == position;
   });
-  console.log(uniqueArray);
+  return uniqueArray;
+}
+function addGenresToSelectGenreElement() {
+  uniqueArray = findGenres();
   uniqueArray.forEach((genre) => {
     let option = document.createElement("option");
     option.setAttribute("value", genre);
     option.innerText = genre;
     selectGenre.appendChild(option);
   });
+  return uniqueArray;
 }
 //Creating a function to enable element
 function enableElement(element) {
@@ -72,30 +92,71 @@ function fetchAndDisplaySeason(showId) {
     .catch((error) => console.log(error));
 }
 
+let castInfo = document.createElement("div");
+castInfo.classList.add("cast-info");
+let castDiv = document.createElement("div");
+episodeContainer.appendChild(castDiv);
+castDiv.classList.add("cast-div");
+castDiv.innerHTML = `<p>See Cast List</p>`;
+//Function to fetch cast list by showId
+function fetchCastData(showId) {
+  let url = "http://api.tvmaze.com/shows/" + showId + "/cast";
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      castInfo.innerHTML = ``;
+      castDiv.appendChild(castInfo);
+      // castDiv.classList.add("cast");
+      data.forEach((show) => {
+        let cast = document.createElement("div");
+        cast.classList.add("cast");
+        castInfo.appendChild(cast);
+
+        let image = document.createElement("img");
+        let name = document.createElement("p");
+        cast.appendChild(image);
+        cast.appendChild(name);
+        if (image) {
+          image.src = show.person.image.medium;
+        }
+        name.innerText = show.person.name;
+        console.log(show.person.name);
+      });
+    });
+}
 //Adding event listener to select show element
 selectShow.addEventListener("change", function eventHandler(e) {
+  castDiv.innerHTML = `<p>See Cast List</p>`;
+
   let displaySelectedShow = allShows.filter((show) => {
     return show.name === e.target.value;
   });
-  episodeContainer.innerHTML = ``;
+  episodeSection.innerHTML = ``;
   let showId = displaySelectedShow[0].id;
   fetchAndDisplaySeason(showId);
+  fetchCastData(showId);
   enableElement(selectEpisode);
   searchInput.value = "";
 });
+
+
 // Adding event listener to select genre element
 selectGenre.addEventListener("change", (e) => {
+  castDiv.innerHTML = ``;
   let displaySelectedGenre = allShows.filter((show) => {
     return show.genres.includes(e.target.value);
   });
-  episodeContainer.innerHTML = ``;
-
-  displayShowsEpisodes(displaySelectedGenre);
+  // episodeContainer.innerHTML = `<p>haaa</p>`
+  episodeSection.innerHTML = ``;
   console.log(displaySelectedGenre);
+  displayShowsEpisodes(displaySelectedGenre);
 });
+castDiv.addEventListener("click",()=>{
+  castInfo.classList.toggle("cast-info-show")
+})
+
 // Function to display episodes/shows. This is the only function displaying episode/show, after a search or choosing from a select element or button.
 function displayShowsEpisodes(allEpisodes) {
-  const episodeSection = document.createElement("section");
   episodeContainer.appendChild(episodeSection);
   episodeSection.classList.add("episode-section");
   allEpisodes.forEach((episode) => {
@@ -171,7 +232,7 @@ function displayShowsEpisodes(allEpisodes) {
     //if displaying shows, add a click event listener to divisions when clicked it will display episode
     if (isDisplayAllShows) {
       episodeDiv.addEventListener("click", (e) => {
-        episodeContainer.innerHTML = ``;
+        episodeSection.innerHTML = ``;
         fetchAndDisplaySeason(episode.id);
         enableElement(selectEpisode);
         enableElement(displayAllEpisodesButton);
@@ -182,6 +243,7 @@ function displayShowsEpisodes(allEpisodes) {
   isSearchUsed = false;
   foundEpisodesText(allEpisodes);
 }
+
 //Adding event listener to the search input
 searchInput.addEventListener("input", eventHandlerSearch);
 function eventHandlerSearch(e) {
@@ -215,7 +277,7 @@ function filterShowEpisodeAndDisplay(showEpisodeData) {
       );
     }
   });
-  episodeContainer.innerHTML = ``;
+  episodeSection.innerHTML = ``;
   foundEpisodesText(episodeList);
   displayShowsEpisodes(episodeList);
   selectEpisode.selectedIndex = "0";
@@ -232,7 +294,8 @@ displayAllShowsButton.addEventListener(
   eventHandlerDisplayAllShowsButton
 );
 function eventHandlerDisplayAllShowsButton() {
-  episodeContainer.innerHTML = ``;
+  castDiv.innerHTML = ``;
+  episodeSection.innerHTML = ``;
   displayShowsEpisodes(allShows);
   isDisplayAllShows = true;
   selectEpisode.selectedIndex = "0";
@@ -240,7 +303,7 @@ function eventHandlerDisplayAllShowsButton() {
   searchInput.value = "";
 }
 function eventHandlerDisplayAllEpisodesButton() {
-  episodeContainer.innerHTML = ``;
+  episodeSection.innerHTML = ``;
   displayShowsEpisodes(dataEpisode);
   selectEpisode.selectedIndex = "0";
   selectShow.selectedIndex = "0";
@@ -267,11 +330,10 @@ function addEpisodesToSelectEpisodeElement(allEpisodes) {
 //Adding event listener episode selector
 selectEpisode.addEventListener("change", eventHandlerSelectEpisode);
 function eventHandlerSelectEpisode(e) {
-  console.log("event handler select episode working");
   let displaySelectedEpisode = newEpisodes.filter((episode) => {
     return episode.name === e.target.value;
   });
-  episodeContainer.innerHTML = ``;
+  episodeSection.innerHTML = ``;
   displayShowsEpisodes(displaySelectedEpisode);
   searchInput.value = "";
 }
