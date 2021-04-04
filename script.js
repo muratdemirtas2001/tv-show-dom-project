@@ -11,11 +11,29 @@ function setUp() {
   displayShowsEpisodes(allShows);
   disableElement(selectEpisode);
   disableElement(displayAllEpisodesButton);
+  addGenresToSelectGenreElement();
 }
 setUp();
 // Creating a function to disable element
 function disableElement(element) {
   element.disabled = true;
+}
+// Creating function to ad genres to select genre selector
+function addGenresToSelectGenreElement() {
+  let uniqueGenre = [];
+  allShows.forEach((show) => {
+    uniqueGenre = [...uniqueGenre, ...show.genres];
+  });
+  uniqueArray = uniqueGenre.filter(function (genre, position) {
+    return uniqueGenre.indexOf(genre) == position;
+  });
+  console.log(uniqueArray);
+  uniqueArray.forEach((genre) => {
+    let option = document.createElement("option");
+    option.setAttribute("value", genre);
+    option.innerText = genre;
+    selectGenre.appendChild(option);
+  });
 }
 //Creating a function to enable element
 function enableElement(element) {
@@ -54,7 +72,7 @@ function fetchAndDisplaySeason(showId) {
     .catch((error) => console.log(error));
 }
 
-//Adding event listener select show element
+//Adding event listener to select show element
 selectShow.addEventListener("change", function eventHandler(e) {
   let displaySelectedShow = allShows.filter((show) => {
     return show.name === e.target.value;
@@ -64,6 +82,16 @@ selectShow.addEventListener("change", function eventHandler(e) {
   fetchAndDisplaySeason(showId);
   enableElement(selectEpisode);
   searchInput.value = "";
+});
+// Adding event listener to select genre element
+selectGenre.addEventListener("change", (e) => {
+  let displaySelectedGenre = allShows.filter((show) => {
+    return show.genres.includes(e.target.value);
+  });
+  episodeContainer.innerHTML = ``;
+
+  displayShowsEpisodes(displaySelectedGenre);
+  console.log(displaySelectedGenre);
 });
 // Function to display episodes/shows. This is the only function displaying episode/show, after a search or choosing from a select element or button.
 function displayShowsEpisodes(allEpisodes) {

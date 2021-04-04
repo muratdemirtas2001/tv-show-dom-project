@@ -7,23 +7,31 @@ searchBarContainer.classList.add("searchbar-container");
 let selectEpisodeContainer = document.createElement("div");
 selectEpisodeContainer.classList.add("selectepisode-container");
 
+let selectGenreContainer = document.createElement("div");
+selectGenreContainer.classList.add("selectepisode-container");
+
 let selectShowContainer = document.createElement("div");
 selectShowContainer.classList.add("selectepisode-container");
 
 let episodeContainer = document.createElement("div");
 let selectEpisode = document.createElement("select");
 let selectShow = document.createElement("select");
+let selectGenre = document.createElement("select");
 let defaultOptionSelectEpisode = document.createElement("option");
 let defaultOptionSelectShow = document.createElement("option");
+let defaultOptionSelectGenre = document.createElement("option");
 
 defaultOptionSelectEpisode.innerText = "Please choose an episode";
 defaultOptionSelectShow.innerText = "Please choose a show";
+defaultOptionSelectGenre.innerText = "Choose your genre";
 
 selectEpisode.appendChild(defaultOptionSelectEpisode);
 selectShow.appendChild(defaultOptionSelectShow);
+selectGenre.appendChild(defaultOptionSelectGenre);
 const labelSearchInput = document.createElement("label");
 const labelSelectEpisode = document.createElement("label");
 const labelSelectShow = document.createElement("label");
+const labelSelectGenre = document.createElement("label");
 
 selectEpisode.classList.add("select-episode");
 labelSearchInput.innerText = "Search your show/episode";
@@ -36,16 +44,23 @@ selectShow.classList.add("select-episode");
 labelSelectShow.innerText = "Choose your Show";
 labelSelectShow.classList.add("label-selectepisode");
 
+selectGenre.classList.add("select-episode");
+labelSelectGenre.innerText="Choose your genre"
+labelSelectGenre.classList.add("label-selectepisode");
+
 const searchInput = document.createElement("input");
 navbarContainer.appendChild(selectShowContainer);
 navbarContainer.appendChild(selectEpisodeContainer);
 navbarContainer.appendChild(searchBarContainer);
+navbarContainer.appendChild(selectGenreContainer)
 searchBarContainer.appendChild(labelSearchInput);
 searchBarContainer.appendChild(searchInput);
 selectEpisodeContainer.appendChild(labelSelectEpisode);
 selectEpisodeContainer.appendChild(selectEpisode);
 selectShowContainer.appendChild(labelSelectShow);
 selectShowContainer.appendChild(selectShow);
+selectGenreContainer.appendChild(labelSelectGenre)
+selectGenreContainer.appendChild(selectGenre)
 
 let displayAllEpisodesButton = document.createElement("button");
 displayAllEpisodesButton.innerText = "All episodes";
@@ -66,8 +81,6 @@ navbarContainer.appendChild(searchTotal);
 //  const episodeSection = document.createElement("section");
 //  episodeContainer.appendChild(episodeSection);
 //  episodeSection.classList.add("episode-section");
-
-
 
 let footerContainer = document.createElement("footer");
 rootElem.appendChild(footerContainer);
