@@ -112,8 +112,8 @@ html {
   margin-right: 10px;
   margin-left: 10px;
   font-size: 1 em;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* overflow: hidden;
+  text-overflow: ellipsis; */
 }
 .cast-div p {
   text-align: center;

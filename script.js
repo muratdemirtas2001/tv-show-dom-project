@@ -203,7 +203,21 @@ function displayShowsEpisodes(allEpisodes) {
     }
     let episodeSummary = document.createElement("div");
     infoAndSummaryWrapper.appendChild(episodeSummary);
-    episodeSummary.innerHTML = episode.summary;
+    //Adding a read more button if the length of summary is longer than 500 character
+    if (episode.summary.length > 400) {
+      episodeSummary.innerHTML = episode.summary.substring(0, 500) + "...";
+      let readMoreButton = document.createElement("button");
+      episodeSummary.appendChild(readMoreButton);
+      readMoreButton.innerText = "Read More";
+      readMoreButton.addEventListener("click", (event) => {
+        //stopping bubbling in event listeners
+        event.stopPropagation();
+        episodeSummary.innerHTML = episode.summary;
+      });
+    } else {
+      episodeSummary.innerHTML = episode.summary;
+    }
+
     episodeSummary.classList.add("episodeSummary-paragraph");
     //After search feature used, marking what found on the screen
     if (isSearchUsed) {
