@@ -9,7 +9,6 @@ selectEpisodeContainer.classList.add("selectepisode-container");
 
 const episodeSection = document.createElement("section");
 
-
 let selectGenreContainer = document.createElement("div");
 selectGenreContainer.classList.add("selectepisode-container");
 
@@ -48,11 +47,11 @@ labelSelectShow.innerText = "Choose your Show";
 labelSelectShow.classList.add("label-selectepisode");
 
 selectGenre.classList.add("select-episode");
-labelSelectGenre.innerText="Choose your genre"
+labelSelectGenre.innerText = "Choose your genre";
 labelSelectGenre.classList.add("label-selectepisode");
 
 const searchInput = document.createElement("input");
-navbarContainer.appendChild(selectGenreContainer)
+navbarContainer.appendChild(selectGenreContainer);
 navbarContainer.appendChild(selectShowContainer);
 navbarContainer.appendChild(selectEpisodeContainer);
 navbarContainer.appendChild(searchBarContainer);
@@ -62,8 +61,8 @@ selectEpisodeContainer.appendChild(labelSelectEpisode);
 selectEpisodeContainer.appendChild(selectEpisode);
 selectShowContainer.appendChild(labelSelectShow);
 selectShowContainer.appendChild(selectShow);
-selectGenreContainer.appendChild(labelSelectGenre)
-selectGenreContainer.appendChild(selectGenre)
+selectGenreContainer.appendChild(labelSelectGenre);
+selectGenreContainer.appendChild(selectGenre);
 
 let displayAllEpisodesButton = document.createElement("button");
 displayAllEpisodesButton.innerText = "All episodes";
@@ -81,11 +80,10 @@ const searchTotal = document.createElement("p");
 searchTotal.classList.add("search-total");
 navbarContainer.appendChild(searchTotal);
 
-//  const episodeSection = document.createElement("section");
-//  episodeContainer.appendChild(episodeSection);
-//  episodeSection.classList.add("episode-section");
-
 let footerContainer = document.createElement("footer");
 rootElem.appendChild(footerContainer);
-footerContainer.innerText = "Data on this site is taken from TV MAZE API";
+let linkElement = document.createElement("a");
+footerContainer.appendChild(linkElement);
+linkElement.setAttribute("href", "https://www.tvmaze.com/");
+linkElement.innerText = "Data on this site is taken from TV MAZE API";
 footerContainer.classList.add("footer-container");

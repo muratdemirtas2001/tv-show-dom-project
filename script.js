@@ -18,23 +18,6 @@ setUp();
 function disableElement(element) {
   element.disabled = true;
 }
-// Creating function to ad genres to select genre selector
-// function addGenresToSelectGenreElement() {
-//   let uniqueGenre = [];
-//   allShows.forEach((show) => {
-//     uniqueGenre = [...uniqueGenre, ...show.genres];
-//   });
-//   uniqueArray = uniqueGenre.filter(function (genre, position) {
-//     return uniqueGenre.indexOf(genre) == position;
-//   });
-//   uniqueArray.forEach((genre) => {
-//     let option = document.createElement("option");
-//     option.setAttribute("value", genre);
-//     option.innerText = genre;
-//     selectGenre.appendChild(option);
-//   });
-//   return uniqueArray;
-// }
 function findGenres() {
   let uniqueGenre = [];
   allShows.forEach((show) => {
@@ -120,40 +103,44 @@ function fetchCastData(showId) {
           image.src = show.person.image.medium;
         }
         name.innerText = show.person.name;
-        console.log(show.person.name);
       });
     });
 }
 //Adding event listener to select show element
 selectShow.addEventListener("change", function eventHandler(e) {
+  isDisplayAllShows = false;
   castDiv.innerHTML = `<p>See Cast List</p>`;
-
-  let displaySelectedShow = allShows.filter((show) => {
-    return show.name === e.target.value;
-  });
   episodeSection.innerHTML = ``;
-  let showId = displaySelectedShow[0].id;
-  fetchAndDisplaySeason(showId);
-  fetchCastData(showId);
-  enableElement(selectEpisode);
+  if (e.target.value === "Please choose a show") {
+    displayShowsEpisodes(allShows);
+  } else {
+    let displaySelectedShow = allShows.filter((show) => {
+      return show.name === e.target.value;
+    });
+    let showId = displaySelectedShow[0].id;
+    fetchAndDisplaySeason(showId);
+    fetchCastData(showId);
+    enableElement(selectEpisode);
+  }
   searchInput.value = "";
 });
-
 
 // Adding event listener to select genre element
 selectGenre.addEventListener("change", (e) => {
   castDiv.innerHTML = ``;
-  let displaySelectedGenre = allShows.filter((show) => {
-    return show.genres.includes(e.target.value);
-  });
-  // episodeContainer.innerHTML = `<p>haaa</p>`
   episodeSection.innerHTML = ``;
-  console.log(displaySelectedGenre);
-  displayShowsEpisodes(displaySelectedGenre);
+  if (e.target.value === "Choose your genre") {
+    displayShowsEpisodes(allShows);
+  } else {
+    let displaySelectedGenre = allShows.filter((show) => {
+      return show.genres.includes(e.target.value);
+    });
+    displayShowsEpisodes(displaySelectedGenre);
+  }
 });
-castDiv.addEventListener("click",()=>{
-  castInfo.classList.toggle("cast-info-show")
-})
+castDiv.addEventListener("click", () => {
+  castInfo.classList.toggle("cast-info-show");
+});
 
 // Function to display episodes/shows. This is the only function displaying episode/show, after a search or choosing from a select element or button.
 function displayShowsEpisodes(allEpisodes) {
@@ -281,6 +268,8 @@ function filterShowEpisodeAndDisplay(showEpisodeData) {
   foundEpisodesText(episodeList);
   displayShowsEpisodes(episodeList);
   selectEpisode.selectedIndex = "0";
+  selectShow.selectedIndex = "0";
+  selectGenre.selectedIndex = "0";
 }
 
 //Adding event listener to All Episodes button
@@ -300,6 +289,8 @@ function eventHandlerDisplayAllShowsButton() {
   isDisplayAllShows = true;
   selectEpisode.selectedIndex = "0";
   selectShow.selectedIndex = "0";
+  selectGenre.selectedIndex = "0";
+
   searchInput.value = "";
 }
 function eventHandlerDisplayAllEpisodesButton() {
@@ -315,6 +306,7 @@ function eventHandlerDisplayAllEpisodesButton() {
 let newEpisodes;
 function addEpisodesToSelectEpisodeElement(allEpisodes) {
   selectEpisode.innerHTML = "";
+  selectEpisode.appendChild(defaultOptionSelectEpisode);
   newEpisodes = allEpisodes;
   allEpisodes.forEach((episode) => {
     [showSeason, showNumber] = episodeNumberGenerator(episode);
@@ -330,16 +322,26 @@ function addEpisodesToSelectEpisodeElement(allEpisodes) {
 //Adding event listener episode selector
 selectEpisode.addEventListener("change", eventHandlerSelectEpisode);
 function eventHandlerSelectEpisode(e) {
-  let displaySelectedEpisode = newEpisodes.filter((episode) => {
-    return episode.name === e.target.value;
-  });
   episodeSection.innerHTML = ``;
-  displayShowsEpisodes(displaySelectedEpisode);
+
+  if (e.target.value === "Please choose an episode") {
+    displayShowsEpisodes(newEpisodes);
+  } else {
+    let displaySelectedEpisode = newEpisodes.filter((episode) => {
+      return episode.name === e.target.value;
+    });
+    displayShowsEpisodes(displaySelectedEpisode);
+  }
+
   searchInput.value = "";
 }
 //Declaring function to display number of episode found regarding with any query
 function foundEpisodesText(episodeList) {
-  searchTotal.innerText = "Total episode found:" + episodeList.length;
+  if (isDisplayAllShows) {
+    searchTotal.innerText = "Total shows found:" + episodeList.length;
+  } else {
+    searchTotal.innerText = "Total episode found:" + episodeList.length;
+  }
   if (episodeList.length === 0) {
     episodeContainer.innerText = "Sorry, please search again";
   }
